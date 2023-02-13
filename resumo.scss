@@ -1,0 +1,98 @@
+// Declare variáveis sass. =======================================================================
+$text-color: red;
+$main-color: blue;
+$secundary-color: green;
+
+// Nesting CSS Rules em SASS. ==== MELHOR ORGANIZAÇÃO. ========================================
+body {
+  background-color: $main-color;
+
+  #divPai {
+    #h1DaDivPai {
+      color: $text-color;
+    }
+    #divFilho {
+      #h2DaDivFilho {
+        color: $text-color;
+      }
+    }
+  }
+}
+
+// MIXIN - SASS Functions ================================================================================
+@mixin box-shadow($x, $y, $blur, $c) {
+  -webkit-box-shadow: $x $y $blur $c;
+  -moz-box-shadow: $x $y $blur $c;
+  -ms-box-shadow: $x $y $blur $c;
+  box-shadow: $x $y $blur $c;
+}
+
+div {
+  @include box-shadow(0px, 0px, 4px, #fff);
+}
+
+// CONDICIONAIS........... ================================================================================
+@mixin border-stroke($val) {
+  @if $val == light {
+    border: 1px solid black;
+  } @else if $val == medium {
+    border: 3px solid black;
+  } @else if $val == heavy {
+    border: 6px solid black;
+  } @else {
+    border: none;
+  }
+}
+
+// REPETIÇÃO ....... ================================================================================
+@for $j from 1 to 6 {
+  .text-#{$j} {
+    font-size: 15px * $j;
+  }
+}
+
+@for $j from 1 through 6 {
+  .text-#{$j} {
+    font-size: 15px * $j;
+  }
+}
+
+// o #{$j} é a sintaxe para string para retornar .text-1 / .text-2 / .text-3 e adiante...
+// essa repetição multiplica o 15px pelo respectivo index da repetição...
+// from to - não inclui o 6.
+// from through inclui o 6.
+
+// REPETIÇÃO EACH  =========================================================================
+
+@each $color in blue, red, green {
+  .#{$color}-text {
+    color: $color;
+  }
+}
+
+// MAPPPPPPPPP
+$colors: (
+  color1: blue,
+  color2: red,
+  color3: green,
+);
+
+@each $key, $color in $colors {
+  .#{$color}-text {
+    color: $color;
+  }
+}
+
+// REPETIÇÃO WHILE ======================================================================
+$x: 1;
+@while $x < 13 {
+  .text-#{$x} {
+    font-size: 15px * $x;
+  }
+  $x: $x + 1;
+}
+
+// IMPORTAR PARTIALS =================================================================================
+// partials devem ser declarados da seguinte forma: _partial.scss
+// o SCSS entende que isso é um partial, não necessitando mais nenhuma config no arquivo partial...
+// no arquivo main para importá-lo: @import 'partial', não precisa do _ nem do .scss
